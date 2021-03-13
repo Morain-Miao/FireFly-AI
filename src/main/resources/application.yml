@@ -1,0 +1,10 @@
+server:
+  port: 9001
+spring:
+  profiles:
+    active: loc
+  application:
+    name: firefly
+tencent:
+  SecretId: AKIDly84XnSc8SgxxDs0VklgCVaTxJQImKRM
+  SecretKey: ym4bu0tXErRlpfMrrblJfnfJ7anvlLfp
