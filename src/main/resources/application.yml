@@ -5,6 +5,18 @@ spring:
     active: loc
   application:
     name: firefly
+feign:
+  client:
+    config:
+      default:
+        connectTimeout: 5000
+        readTimeout: 5000
+        loggerLevel: basic
+logging:
+  level:
+    com.cafi.firefly.service.feignClient: debug
 tencent:
   SecretId: AKIDly84XnSc8SgxxDs0VklgCVaTxJQImKRM
   SecretKey: ym4bu0tXErRlpfMrrblJfnfJ7anvlLfp
+
+
