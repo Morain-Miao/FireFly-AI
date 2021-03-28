@@ -1,5 +1,5 @@
 server:
-  port: 9001
+  port: 8999
 spring:
   profiles:
     active: loc
@@ -16,7 +16,7 @@ logging:
   level:
     com.cafi.firefly.service.feignClient: debug
 tencent:
-  SecretId: AKIDly84XnSc8SgxxDs0VklgCVaTxJQImKRM
-  SecretKey: ym4bu0tXErRlpfMrrblJfnfJ7anvlLfp
+  SecretId: AKIDYu13yfWoxDDxo7xJcdRcWGn56q3pdaZH
+  SecretKey: mLempvmMgmpfPRFqCIgoiOt9BvshWEh7
 
 
