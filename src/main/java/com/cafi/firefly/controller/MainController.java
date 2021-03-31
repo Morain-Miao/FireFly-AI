@@ -1,11 +1,16 @@
 package com.cafi.firefly.controller;
 
 import com.cafi.firefly.bean.ImgEntityVo;
+import com.cafi.firefly.bean.VoiceVo;
 import com.cafi.firefly.domain.ImgMainProcess;
+import com.cafi.firefly.domain.VoiceProcess;
 import com.github.xiaoymin.knife4j.annotations.ApiOperationSupport;
 import com.github.xiaoymin.knife4j.annotations.DynamicParameter;
 import com.github.xiaoymin.knife4j.annotations.DynamicParameters;
 import com.github.xiaoymin.knife4j.annotations.DynamicResponseParameters;
+import com.tencentcloudapi.common.Credential;
+import com.tencentcloudapi.common.profile.HttpProfile;
+import com.tencentcloudapi.tts.v20190823.models.TextToVoiceResponse;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
@@ -32,6 +37,9 @@ import java.nio.charset.StandardCharsets;
 public class MainController {
     @Autowired
     ImgMainProcess imgMainProcess;
+
+    @Autowired
+    VoiceProcess voiceProcess;
 
     @ApiOperation(value = "图片处理接口", notes = "")
     @ApiOperationSupport(
@@ -63,4 +71,21 @@ public class MainController {
         }
 
     }
+
+    @ApiOperation(value = "获取语音合成", notes = "     * Audio    String\tbase64编码的wav/mp3音频数据\n" +
+            "     * SessionId\tString\t一次请求对应一个SessionId\n" +
+            "     * RequestId\tString\t唯一请求 ID，每次请求都会返回。定位问题时需要提供该次请求的 RequestId")
+    @ApiOperationSupport(
+            author = "万能的苗",
+            params = @DynamicParameters(name = "CreateOrderHashMapModel",properties = {
+                    @DynamicParameter(name = "request",value = "请求体",example = "{}",required = true,dataTypeClass = ImgEntityVo.class),
+            }),
+            responses = @DynamicResponseParameters(name = "")
+    )
+    @RequestMapping(value = "/getVoice")
+    public TextToVoiceResponse getVoice(@RequestBody VoiceVo voiceVo) {
+        return voiceProcess.getVoice(voiceVo.getText());
+    }
+
+
 }
