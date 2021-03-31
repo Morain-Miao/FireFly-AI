@@ -1,13 +1,10 @@
 package com.cafi.firefly.controller;
 
-import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
-import com.cafi.firefly.bean.ImgEntityVo;
 import com.cafi.firefly.bean.SessionKeyVo;
 import com.cafi.firefly.bean.UserIdVo;
 import com.cafi.firefly.bean.UserPhoneNumberVo;
 import com.cafi.firefly.domain.MiniqrQrProcess;
-import com.cafi.firefly.service.MiniqrQrService;
 import com.cafi.firefly.service.feignClient.FeignClient;
 import com.github.xiaoymin.knife4j.annotations.ApiOperationSupport;
 import com.github.xiaoymin.knife4j.annotations.DynamicParameter;
@@ -28,7 +25,6 @@ import java.io.IOException;
 import java.io.OutputStream;
 import java.nio.charset.StandardCharsets;
 import java.security.spec.AlgorithmParameterSpec;
-import java.util.Map;
 
 /**
  * @program: FireFly-AI
