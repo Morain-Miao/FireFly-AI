@@ -18,5 +18,8 @@ logging:
 tencent:
   SecretId: AKIDYu13yfWoxDDxo7xJcdRcWGn56q3pdaZH
   SecretKey: mLempvmMgmpfPRFqCIgoiOt9BvshWEh7
+wechat:
+  appId: wx1ffe147197c02b38
+  appSecret: 16e4cb109613131ccf5fdc45ded10335
 
 

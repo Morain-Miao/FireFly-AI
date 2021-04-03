@@ -20,9 +20,9 @@ import java.net.URL;
 @Slf4j
 @Service
 public class MiniqrQrServiceImpl implements MiniqrQrService {
-    @Value("${tencent.SecretId}")
+    @Value("${wechat.appId}")
     String SecretId;
-    @Value("${tencent.SecretKey}")
+    @Value("${wechat.appSecret}")
     String SecretKey;
 
     @Override

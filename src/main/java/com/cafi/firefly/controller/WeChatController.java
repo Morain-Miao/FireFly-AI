@@ -99,19 +99,16 @@ public class WeChatController {
     )
     @PostMapping(value = "/getMiniqrQr")
     @ResponseBody
-    public void getMiniqrQr(@RequestBody UserIdVo userIdVo, HttpServletResponse response) throws Exception {
-        boolean result = miniqrQrProcess.MiniqrQrProcessed(userIdVo, response);
-        if (!result){
-            String data = "{\"status\":\"0\",\"data\":\"获取小程序二维码失败\"}";
-            try {
-                OutputStream outputStream = response.getOutputStream();
-                response.setHeader("content-type", "application/json;charset=UTF-8");//通过设置响应头控制浏览器以UTF-8的编码显示数据，如果不加这句话，那么浏览器显示的将是乱码
-                byte[] dataByteArr = data.getBytes(StandardCharsets.UTF_8);//将字符转换成字节数组，指定以UTF-8编码进行转换
-                outputStream.write(dataByteArr);//使用OutputStream流向客户端输出字节数组
-            } catch (IOException e) {
-                log.error("输出响应异常："+e.toString());
-            }
+    public JSONObject getMiniqrQr(@RequestBody UserIdVo userIdVo, HttpServletResponse response) throws Exception {
+        String result = miniqrQrProcess.MiniqrQrProcessed(userIdVo, response);
+        JSONObject responseJson = new JSONObject();
+        if (result != null){
+            responseJson.put("status", "0");
+            responseJson.put("data", result);
         }
+        responseJson.put("status", "0");
+        responseJson.put("data", "调用图片处理接口失败");
+        return responseJson;
     }
 
 

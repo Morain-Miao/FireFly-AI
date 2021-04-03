@@ -1,5 +1,6 @@
 package com.cafi.firefly.controller;
 
+import com.alibaba.fastjson.JSONObject;
 import com.cafi.firefly.bean.ImgEntityVo;
 import com.cafi.firefly.bean.VoiceVo;
 import com.cafi.firefly.domain.ImgMainProcess;
@@ -50,25 +51,23 @@ public class MainController {
             responses = @DynamicResponseParameters(name = "")
     )
     @RequestMapping(value = "/getImg")
-    public void getClassQr(@RequestBody ImgEntityVo request, HttpServletResponse response) {
+    public JSONObject getClassQr(@RequestBody ImgEntityVo request, HttpServletResponse response) {
         // 设置响应流信息
         response.setContentType("image/jpg");
         response.setHeader("Pragma", "no-cache");
         response.setHeader("Cache-Control", "no-cache");
         response.setDateHeader("Expires", 0);
 //        response.setContentType("application/octet-stream");
-        boolean result = imgMainProcess.imgProcessed(request, response);
-        if (!result){
-            String data = "{\"status\":\"0\",\"data\":\"调用图片处理接口失败\"}";
-            try {
-                OutputStream outputStream = response.getOutputStream();
-                response.setHeader("content-type", "application/json;charset=UTF-8");//通过设置响应头控制浏览器以UTF-8的编码显示数据，如果不加这句话，那么浏览器显示的将是乱码
-                byte[] dataByteArr = data.getBytes(StandardCharsets.UTF_8);//将字符转换成字节数组，指定以UTF-8编码进行转换
-                outputStream.write(dataByteArr);//使用OutputStream流向客户端输出字节数组
-            } catch (IOException e) {
-                log.error("输出响应异常："+e.toString());
-            }
+        String result = imgMainProcess.imgProcessed(request, response);
+        JSONObject responseJson = new JSONObject();
+        if (result != null){
+            responseJson.put("status", "0");
+            responseJson.put("data", result);
+        }else{
+            responseJson.put("status", "1");
+            responseJson.put("data", "调用图片处理接口失败");
         }
+        return responseJson;
 
     }
 

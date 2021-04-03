@@ -5,6 +5,7 @@ import com.cafi.firefly.bean.UserIdVo;
 import com.cafi.firefly.service.ImgProcessingService;
 import com.cafi.firefly.service.MiniqrQrService;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.io.IOUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -28,34 +29,29 @@ public class MiniqrQrProcess {
     @Autowired
     MiniqrQrService miniqrQrService;
     @Autowired
-    ImgProcessingService imgProcessingService;
+    ImgMainProcess imgMainProcess;
 
-
-    public boolean MiniqrQrProcessed(UserIdVo userIdVo, HttpServletResponse response) {
+    public String MiniqrQrProcessed(UserIdVo userIdVo, HttpServletResponse response) {
         String token;
         try {
             token = miniqrQrService.postToken();
         } catch (Exception e) {
             log.error("获取token异常：" + e);
-            return false;
+            return null;
         }
         BufferedInputStream inputStream = miniqrQrService.getMiniqrQr(userIdVo.getUserPhoneNumber(), token);
+        try {
+            String result = IOUtils.toString(inputStream, "UTF-8");
+            log.info(result);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
         BufferedImage image = null;
         try {
             image = ImageIO.read(inputStream);
         } catch (IOException e) {
             e.printStackTrace();
         }
-        OutputStream stream = null;
-        try {
-            stream = response.getOutputStream();
-            assert image != null;
-            //以流的形式输出到前端
-            ImageIO.write(image, "jpeg", stream);
-            return true;
-        } catch (IOException e) {
-            log.error("图片输入流写入Response异常：" + e.toString());
-            return false;
-        }
+        return ImgMainProcess.BufferedImageToBase64(image);
     }
 }

@@ -5,11 +5,13 @@ import com.cafi.firefly.service.ImgProcessingService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import sun.misc.BASE64Encoder;
 
 import javax.imageio.ImageIO;
 import javax.servlet.http.HttpServletResponse;
 import java.awt.image.BufferedImage;
 import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.util.ArrayList;
@@ -26,7 +28,7 @@ public class ImgMainProcess {
     @Autowired
     ImgProcessingService imgProcessingService;
 
-    public boolean imgProcessed(ImgEntityVo request, HttpServletResponse response) {
+    public String imgProcessed(ImgEntityVo request, HttpServletResponse response) {
         //调用腾讯AI OCR接口获取识别信息 返回是个Json
         String tencentRsp = imgProcessingService.generalBasicOCR(request.getImgBase64());
         //写死返回用于测试
@@ -131,15 +133,27 @@ public class ImgMainProcess {
         ByteArrayInputStream byteArrayInputStream = imgProcessingService.changeBase64ToInputStream(request.getImgBase64());
         //图片标注
         BufferedImage bufferedImage = imgProcessingService.imageOverlays(coordinate, byteArrayInputStream);
-        OutputStream stream = null;
+        return BufferedImageToBase64(bufferedImage);
+
+    }
+    /**
+     * BufferedImage 编码转换为 base64
+     * @param bufferedImage
+     * @return
+     */
+    @org.jetbrains.annotations.NotNull
+    public static String BufferedImageToBase64(BufferedImage bufferedImage) {
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();//io流
         try {
-            stream = response.getOutputStream();
-            //以流的形式输出到前端
-            ImageIO.write(bufferedImage, "jpeg", stream);
-            return true;
+            ImageIO.write(bufferedImage, "jpg", baos);//写入流中
         } catch (IOException e) {
-            log.error("图片输入流写入Response异常：" + e.toString());
-            return false;
+            e.printStackTrace();
         }
+        byte[] bytes = baos.toByteArray();//转换成字节
+        BASE64Encoder encoder = new BASE64Encoder();
+        String png_base64 = encoder.encodeBuffer(bytes).trim();//转换成base64串
+        png_base64 = png_base64.replaceAll("\n", "").replaceAll("\r", "");//删除 \r\n
+//        System.out.println("值为：" + "data:image/jpg;base64," + png_base64);
+        return png_base64;
     }
 }

@@ -38,7 +38,7 @@ public class KnifeConfiguration {
                 .title("米粒之光智能引导")
                 .description("示例Restful API")
                 //服务Url
-                .termsOfServiceUrl("http://localhost:9001/doc.html")
+                .termsOfServiceUrl("http://localhost:8999/doc.html")
                 .contact("CAFI小队")
                 .version("0.0.1-SNAPSHOT")
                 .build();
