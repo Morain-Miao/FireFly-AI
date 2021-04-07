@@ -81,7 +81,7 @@ public class MiniqrQrServiceImpl implements MiniqrQrService {
             // 发送请求参数
             JSONObject paramJson = new JSONObject();
             paramJson.put("scene", sceneStr);
-            paramJson.put("page", "pages/index/index");
+            paramJson.put("page", "pages/guide-preview/guide-preview");
             paramJson.put("width", 430);
             paramJson.put("auto_color", true);
             /**

@@ -145,7 +145,7 @@ public class ImgMainProcess {
     public static String BufferedImageToBase64(BufferedImage bufferedImage) {
         ByteArrayOutputStream baos = new ByteArrayOutputStream();//io流
         try {
-            ImageIO.write(bufferedImage, "jpg", baos);//写入流中
+            ImageIO.write(bufferedImage, "png", baos);//写入流中
         } catch (IOException e) {
             e.printStackTrace();
         }

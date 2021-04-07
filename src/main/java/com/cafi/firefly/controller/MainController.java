@@ -82,7 +82,7 @@ public class MainController {
             responses = @DynamicResponseParameters(name = "")
     )
     @RequestMapping(value = "/getVoice")
-    public TextToVoiceResponse getVoice(@RequestBody VoiceVo voiceVo) {
+    public JSONObject getVoice(@RequestBody VoiceVo voiceVo) {
         return voiceProcess.getVoice(voiceVo.getText());
     }
 
