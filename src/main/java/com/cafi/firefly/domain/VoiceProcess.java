@@ -55,10 +55,10 @@ public class VoiceProcess {
             req.setSessionId(uuid);
             req.setModelType(1L);
             TextToVoiceResponse resp = client.TextToVoice(req);
-            base64ToFile(resp.getAudio(),uuid+".mp3","/home/fireflyApp/temp");
+            base64ToFile(resp.getAudio(),uuid+".mp3","/home/fireflyApp/temp/");
 //            log.info(TextToVoiceResponse.toJsonString(resp));
             JSONObject responseJson = new JSONObject();
-            responseJson.put("url","/home/fireflyApp/temp"+uuid+".mp3");
+            responseJson.put("url","http://119.23.202.210:8080/temp/"+uuid+".mp3");
             return responseJson;
         } catch (TencentCloudSDKException e) {
             log.error(e.toString());
